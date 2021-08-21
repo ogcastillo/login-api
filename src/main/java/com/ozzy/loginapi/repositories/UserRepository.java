@@ -1,10 +1,13 @@
 package com.ozzy.loginapi.repositories;
 
+import com.ozzy.loginapi.exceptions.DataNotFoundException;
 import com.ozzy.loginapi.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -17,6 +20,16 @@ import java.util.Optional;
 public class UserRepository implements DAO<User> {
 
     private final JdbcTemplate jdbcTemplate;
+
+    RowMapper<User> rowMapper = (rs,rowNum) -> {
+        User user = new User();
+        user.setId(rs.getLong("user_id"));
+        user.setFirstname(rs.getString("firstname"));
+        user.setLastname(rs.getString("lastname"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
+        return user;
+    };
 
     @Autowired
     public UserRepository(JdbcTemplate jdbcTemplate) {
@@ -36,8 +49,14 @@ public class UserRepository implements DAO<User> {
 
     @Override
     public Optional<User> read(int id) {
-        String sql =
-        return Optional.empty();
+        String sql = "select * from users where user_id = ?";
+        User user = null;
+        try{
+            user = jdbcTemplate.queryForObject(sql, rowMapper, id);
+        }catch (DataAccessException e){
+            throw new DataNotFoundException("User not found!!!");
+        }
+        return Optional.ofNullable(user);
     }
 
     @Override
