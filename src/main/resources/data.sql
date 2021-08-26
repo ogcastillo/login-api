@@ -1,0 +1,2 @@
+insert into users (firstname, lastname, username,email,password) values ('Jane', 'Doe', 'jane.doe','jane.doe@gmail.com','p4ssw0rd');
+insert into users (firstname, lastname, username,email,password) values ('Joe', 'Doe', 'joe.doe','joe.doe@gmail.com','p4ssw0rd');
