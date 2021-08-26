@@ -1,5 +1,6 @@
 package com.ozzy.loginapi.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DAO<T> {
@@ -11,4 +12,6 @@ public interface DAO<T> {
     int update(T t);
 
     int delete(int id);
+    
+    List<T> listAll();
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -61,12 +62,21 @@ public class UserRepository implements DAO<User> {
 
     @Override
     public int update(User user) {
-        return 0;
+        String sql = "update users set firstname=?, lastname=?, username=?, email=?, password=? where user_id=?";
+        return jdbcTemplate.update(sql,user.getFirstname(),user.getLastname(),user.getUsername(),user.getEmail(),user.getPassword(),user.getId());
     }
 
     @Override
     public int delete(int id) {
-        return 0;
+        String sql = "delete from users where user_id=?";
+        return jdbcTemplate.update(sql,id);
     }
-
+    
+    @Override
+    public List<User> listAll() {
+        String sql = "select firstname, lastname, username, email, password from users";
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+    
+    
 }
