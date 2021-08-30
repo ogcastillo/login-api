@@ -6,5 +6,5 @@ public enum ValidationResult {
     LASTNAME_INVALID,
     USERNAME_INVALID,
     EMAIL_INVALID,
-    PASSWORD
+    PASSWORD_INVALID
 }
