@@ -38,9 +38,10 @@ public class UserRepository implements DAO<User> {
     }
 
     public Long create(User user) {
-        
-        PreparedStatementCreator psc = new PreparedStatementCreatorFactory("insert into users(firstname, lastname, username, email, password) values (?,?,?,?,?)",
-                                                                           Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR)
+    
+        String sql = "insert into users(firstname, lastname, username, email, password) values (?,?,?,?,?)";
+        PreparedStatementCreator psc = new PreparedStatementCreatorFactory(sql,
+                                                                           Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR)
                 .newPreparedStatementCreator(Arrays.asList(user.getFirstname(),user.getLastname(),user.getUsername(),user.getEmail(),user.getPassword()));
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
