@@ -1,14 +1,19 @@
 package com.ozzy.loginapi.services;
 
-import com.ozzy.loginapi.models.User;
+import com.ozzy.loginapi.dtos.UserDto;
 
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public interface UserRegistrationValidator extends Function<User, ValidationResult> {
-
-        static UserRegistrationValidator isFirstNameValid(){
+public interface UserRegistrationValidator extends Function<UserDto, ValidationResult> {
+    /**
+     * the patter must match the following rules:
+     *  1.- Any alphabetic characters or the following special character ' . - are allowed
+     *
+     * @return  lambda expression with success or invalidation for the user firstname
+     */
+    static UserRegistrationValidator isFirstNameValid(){
             return userDto -> {
                 Pattern pattern = Pattern.compile("^[a-zA-Z '.-]{2,128}$");
                 Matcher matcher = pattern.matcher(userDto.getFirstname());
@@ -66,6 +71,13 @@ public interface UserRegistrationValidator extends Function<User, ValidationResu
                 return matcher.matches()
                         ? ValidationResult.SUCCESS : ValidationResult.PASSWORD_INVALID;
             };
+    }
+    
+    default UserRegistrationValidator and(UserRegistrationValidator other){
+        return userDto -> {
+            ValidationResult result = this.apply(userDto);
+            return result.equals(ValidationResult.SUCCESS) ? other.apply(userDto) : result;
+        };
     }
     
 }
