@@ -62,11 +62,12 @@ public interface UserRegistrationValidator extends Function<UserDto, ValidationR
     
     static UserRegistrationValidator isPasswordComplexityValid(){
             return userDto -> {
-                String pwdPattern = "\"^(?=.*[0-9])\"\n" +
-                                    "+ \"(?=.*[a-z])(?=.*[A-Z])\"\n" +
-                                    "+ \"(?=.*[@#$%^&+=])\"\n" +
-                                    " + \"(?=\\\\S+$).{8,20}$\"";
-                Pattern pattern = Pattern.compile(pwdPattern);
+                String pwdPattern2 = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\\\S+$).{8,20}$";
+//                String pwdPattern = "\"^(?=.*[0-9])\"\n" +
+//                                    "+ \"(?=.*[a-z])(?=.*[A-Z])\"\n" +
+//                                    "+ \"(?=.*[@#$%^&+=])\"\n" +
+//                                    " + \"(?=\\\\S+$).{8,20}$\"";
+                Pattern pattern = Pattern.compile(pwdPattern2);
                 Matcher matcher = pattern.matcher(userDto.getEmail());
                 return matcher.matches()
                         ? ValidationResult.SUCCESS : ValidationResult.PASSWORD_INVALID;
