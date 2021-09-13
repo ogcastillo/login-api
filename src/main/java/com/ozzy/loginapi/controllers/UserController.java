@@ -23,5 +23,5 @@ public class UserController {
     public UserAuthenticatedDto saveUser(@RequestBody UserDto newUser, HttpServletRequest req, HttpServletResponse res){
         return userService.saveUser(newUser);
     }
-
+    
 }
