@@ -2,6 +2,7 @@ package com.ozzy.loginapi.aspect;
 
 import com.ozzy.loginapi.exceptions.DataNotCreatedException;
 import com.ozzy.loginapi.exceptions.DataNotFoundException;
+import com.ozzy.loginapi.exceptions.DataNotUpdatedException;
 import com.ozzy.loginapi.exceptions.DataNotValidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,4 +23,8 @@ public class ExceptionHandlingAspect {
     @ExceptionHandler(DataNotCreatedException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public void handleDataNotCreatedException(){}
+    
+    @ExceptionHandler(DataNotUpdatedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public void handleDataNotUpdatedException(){}
 }

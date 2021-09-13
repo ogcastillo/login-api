@@ -7,11 +7,11 @@ public interface DAO<T> {
 
     Long create (T t);
 
-    Optional<T> read(int id);
+    Optional<T> read(Long id);
 
     int update(T t);
 
-    int delete(int id);
+    int delete(Long id);
     
     List<T> listAll();
 }

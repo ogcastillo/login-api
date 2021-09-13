@@ -50,7 +50,7 @@ public class UserRepository implements DAO<User> {
     }
 
     @Override
-    public Optional<User> read(int id) {
+    public Optional<User> read(Long id) {
         String sql = "select * from users where user_id = ?";
         User user = null;
         try{
@@ -68,7 +68,7 @@ public class UserRepository implements DAO<User> {
     }
 
     @Override
-    public int delete(int id) {
+    public int delete(Long id) {
         String sql = "delete from users where user_id=?";
         return jdbcTemplate.update(sql,id);
     }
