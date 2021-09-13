@@ -64,7 +64,7 @@ public interface UserRegistrationValidator extends Function<UserDto, ValidationR
             return userDto ->{
                 String pwdPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
                 Pattern pattern = Pattern.compile(pwdPattern);
-                Matcher matcher = pattern.matcher(userDto.getEmail());
+                Matcher matcher = pattern.matcher(userDto.getPassword());
                 return matcher.matches()
                         ? ValidationResult.SUCCESS : ValidationResult.PASSWORD_INVALID;
             };
