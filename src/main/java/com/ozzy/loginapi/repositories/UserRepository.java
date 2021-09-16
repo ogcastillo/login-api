@@ -27,6 +27,7 @@ public class UserRepository implements DAO<User> {
         user.setId(rs.getLong("user_id"));
         user.setFirstname(rs.getString("firstname"));
         user.setLastname(rs.getString("lastname"));
+        user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
         return user;
@@ -45,8 +46,11 @@ public class UserRepository implements DAO<User> {
                 .newPreparedStatementCreator(Arrays.asList(user.getFirstname(),user.getLastname(),user.getUsername(),user.getEmail(),user.getPassword()));
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        return (long) jdbcTemplate.update(psc, keyHolder);
+//        jdbcTemplate.update(psc, keyHolder);
+//        Optional<Number> id = Optional.ofNullable(keyHolder.getKey());
+//        return id.map(Number::longValue).orElse(0L);
+        Long row = (long)jdbcTemplate.update(psc, keyHolder);
+        return row;
     }
 
     @Override
