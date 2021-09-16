@@ -24,4 +24,23 @@ public class UserController {
         return userService.saveUser(newUser);
     }
     
+    @GetMapping(value="/get", produces=APPLICATION_JSON_VALUE)
+    public UserAuthenticatedDto getUser(@RequestParam Long userId,HttpServletRequest req, HttpServletResponse res){
+        return userService.getUser(userId);
+    }
+    
+    @GetMapping(value = "/getAllData", produces=APPLICATION_JSON_VALUE)
+    public UserDto getUserData(@RequestParam Long userId, HttpServletRequest req,HttpServletResponse res){
+        return userService.getUserAllData(userId);
+    }
+    
+    @PostMapping(value = "/update", consumes = APPLICATION_JSON_VALUE, produces=APPLICATION_JSON_VALUE)
+    public void updateUser(@RequestParam Long userId, @RequestBody UserDto userDto,HttpServletRequest req, HttpServletResponse res){
+        if(userService.updateUser(userId, userDto) == 0){
+            res.setStatus(500);
+        }else{
+            res.setStatus(200);
+        };
+    }
+    
 }

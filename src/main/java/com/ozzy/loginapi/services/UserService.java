@@ -69,8 +69,18 @@ public class UserService {
     }
     
     @Transactional
-    public int updateUser(Long id,UserDto user){
-        User userToUpdate = new User(user.getFirstname(),user.getLastname(),user.getUsername(),user.getEmail(),user.getPassword());
+    public int updateUser(Long id,UserDto userDto){
+        ValidationResult result = isFirstNameValid()
+                .and(isLastNameValid())
+                .and(isUsernameValid())
+                .and(isEmailValid())
+                .and(isPasswordComplexityValid())
+                .apply(userDto);
+    
+        if (result != ValidationResult.SUCCESS){
+            throw new DataNotValidException(result.name());
+        }
+        User userToUpdate = new User(userDto.getFirstname(),userDto.getLastname(),userDto.getUsername(),userDto.getEmail(),userDto.getPassword());
         userToUpdate.setId(id);
         int rowsUpdated = userRepository.update(userToUpdate);
         if (rowsUpdated > 0){
