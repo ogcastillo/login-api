@@ -41,16 +41,15 @@ public class UserRepository implements DAO<User> {
     public Long create(User user) {
     
         String sql = "insert into users(firstname, lastname, username, email, password) values (?,?,?,?,?)";
-        PreparedStatementCreator psc = new PreparedStatementCreatorFactory(sql,
-                                                                           Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR)
-                .newPreparedStatementCreator(Arrays.asList(user.getFirstname(),user.getLastname(),user.getUsername(),user.getEmail(),user.getPassword()));
+ 
+        PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(sql,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR);
+        pscf.setReturnGeneratedKeys(true);
+        PreparedStatementCreator psc = pscf.newPreparedStatementCreator(Arrays.asList(user.getFirstname(),user.getLastname(),user.getUsername(),user.getEmail(),user.getPassword()));
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-//        jdbcTemplate.update(psc, keyHolder);
-//        Optional<Number> id = Optional.ofNullable(keyHolder.getKey());
-//        return id.map(Number::longValue).orElse(0L);
-        Long row = (long)jdbcTemplate.update(psc, keyHolder);
-        return row;
+        jdbcTemplate.update(psc, keyHolder);
+        Optional<Number> id = Optional.ofNullable(keyHolder.getKey().longValue());
+        return id.map(Number::longValue).orElse(0L);
     }
 
     @Override
