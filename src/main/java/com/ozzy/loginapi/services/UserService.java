@@ -29,13 +29,7 @@ public class UserService {
     
     @Transactional
     public UserAuthenticatedDto saveUser(UserDto userDto ){
-        ValidationResult result = isFirstNameValid()
-                                            .and(isLastNameValid())
-                                            .and(isUsernameValid())
-                                            .and(isEmailValid())
-                                            .and(isPasswordComplexityValid())
-                                            .apply(userDto);
-        
+        ValidationResult result = getUserDataValidation(userDto);
         if (result != ValidationResult.SUCCESS){
             throw new DataNotValidException(result.name());
         }
@@ -70,13 +64,7 @@ public class UserService {
     
     @Transactional
     public int updateUser(Long id,UserDto userDto){
-        ValidationResult result = isFirstNameValid()
-                .and(isLastNameValid())
-                .and(isUsernameValid())
-                .and(isEmailValid())
-                .and(isPasswordComplexityValid())
-                .apply(userDto);
-    
+        ValidationResult result = getUserDataValidation(userDto);
         if (result != ValidationResult.SUCCESS){
             throw new DataNotValidException(result.name());
         }
@@ -87,5 +75,14 @@ public class UserService {
             throw new DataNotUpdatedException("USER_NOT_UPDATED");
         }
         return rowsUpdated;
+    }
+    
+    private ValidationResult getUserDataValidation(UserDto userDto) {
+        return isFirstNameValid()
+                .and(isLastNameValid())
+                .and(isUsernameValid())
+                .and(isEmailValid())
+                .and(isPasswordComplexityValid())
+                .apply(userDto);
     }
 }
