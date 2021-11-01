@@ -78,7 +78,7 @@ public class UserRepository implements DAO<User> {
     
     @Override
     public List<User> listAll() {
-        String sql = "select firstname, lastname, username, email, password from users";
+        String sql = "select * from users";
         return jdbcTemplate.query(sql, rowMapper);
     }
     
