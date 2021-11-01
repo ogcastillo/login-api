@@ -3,6 +3,7 @@ package com.ozzy.loginapi.controllers;
 import com.ozzy.loginapi.dtos.UserAuthenticatedDto;
 import com.ozzy.loginapi.dtos.UserDto;
 import com.ozzy.loginapi.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ public class UserController {
     }
 
     @PostMapping(value="/save", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public UserAuthenticatedDto saveUser(@RequestBody UserDto newUser, HttpServletRequest req, HttpServletResponse res){
         return userService.saveUser(newUser);
     }

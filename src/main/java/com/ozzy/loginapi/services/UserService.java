@@ -36,7 +36,7 @@ public class UserService {
         
         User user = new User(userDto.getFirstname(), userDto.getLastname(), userDto.getUsername(), userDto.getEmail(), userDto.getPassword());
         user.setId(userRepository.create(user));
-        if (user.getId()==0L){
+          if (user.getId()==0L){
             throw new DataNotCreatedException("DATA_COULD_NOT_BE_SAVED");
         }
     
